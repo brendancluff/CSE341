@@ -1,5 +1,65 @@
-### Get all contacts
+### Local - Get all contacts
 GET http://localhost:8080/contacts
 
-### Get one contact
-GET http://localhost:8080/contacts/PASTE_CONTACT_ID_HERE
+### Production - Get all contacts
+GET https://cse341-5xjq.onrender.com/contacts
+
+### Local - Get one contact
+GET http://localhost:8080/contacts/REPLACE_WITH_REAL_ID
+
+### Production - Get one contact
+GET https://cse341-5xjq.onrender.com/contacts/REPLACE_WITH_REAL_ID
+
+### Local - Create a contact
+POST http://localhost:8080/contacts
+Content-Type: application/json
+
+{
+  "firstName": "Video",
+  "lastName": "Demo",
+  "email": "video.demo@example.com",
+  "favoriteColor": "Blue",
+  "birthday": "1995-01-01"
+}
+
+### Production - Create a contact
+POST https://cse341-5xjq.onrender.com/contacts
+Content-Type: application/json
+
+{
+  "firstName": "Video",
+  "lastName": "Demo",
+  "email": "video.demo@example.com",
+  "favoriteColor": "Blue",
+  "birthday": "1995-01-01"
+}
+
+### Local - Update a contact
+PUT http://localhost:8080/contacts/REPLACE_WITH_REAL_ID
+Content-Type: application/json
+
+{
+  "firstName": "Video",
+  "lastName": "Updated",
+  "email": "video.updated@example.com",
+  "favoriteColor": "Green",
+  "birthday": "1995-01-01"
+}
+
+### Production - Update a contact
+PUT https://cse341-5xjq.onrender.com/contacts/REPLACE_WITH_REAL_ID
+Content-Type: application/json
+
+{
+  "firstName": "Video",
+  "lastName": "Updated",
+  "email": "video.updated@example.com",
+  "favoriteColor": "Green",
+  "birthday": "1995-01-01"
+}
+
+### Local - Delete a contact
+DELETE http://localhost:8080/contacts/REPLACE_WITH_REAL_ID
+
+### Production - Delete a contact
+DELETE https://cse341-5xjq.onrender.com/contacts/REPLACE_WITH_REAL_ID
