@@ -1,37 +1,13 @@
-const dns = require('dns');
-const { MongoClient } = require('mongodb');
-require('dotenv').config();
+const mongoose = require('mongoose');
 
-dns.setServers(['8.8.8.8', '1.1.1.1']);
-
-let database;
-
-const initDb = async () => {
-  if (database) {
-    console.log('Database is already initialized.');
-    return database;
+const connectDb = async () => {
+  try {
+    await mongoose.connect(process.env.MONGODB_URI);
+    console.log('Connected to MongoDB with Mongoose');
+  } catch (error) {
+    console.error('MongoDB connection failed:', error.message);
+    process.exit(1);
   }
-
-  const client = new MongoClient(process.env.MONGODB_URI);
-
-  await client.connect();
-
-  database = client.db('cse341');
-
-  console.log('Connected to MongoDB');
-
-  return database;
 };
 
-const getDatabase = () => {
-  if (!database) {
-    throw new Error('Database has not been initialized.');
-  }
-
-  return database;
-};
-
-module.exports = {
-  initDb,
-  getDatabase
-};
+module.exports = connectDb;
