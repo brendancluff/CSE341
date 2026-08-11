@@ -1,17 +1,21 @@
+@baseUrl = http://localhost:8080
+@productionUrl = https://cse341-5xjq.onrender.com
+@contactId = REPLACE_WITH_REAL_ID
+
 ### Local - Get all contacts
-GET http://localhost:8080/contacts
+GET {{baseUrl}}/contacts
 
 ### Production - Get all contacts
-GET https://cse341-5xjq.onrender.com/contacts
+GET {{productionUrl}}/contacts
 
 ### Local - Get one contact
-GET http://localhost:8080/contacts/REPLACE_WITH_REAL_ID
+GET {{baseUrl}}/contacts/{{contactId}}
 
 ### Production - Get one contact
-GET https://cse341-5xjq.onrender.com/contacts/REPLACE_WITH_REAL_ID
+GET {{productionUrl}}/contacts/{{contactId}}
 
 ### Local - Create a contact
-POST http://localhost:8080/contacts
+POST {{baseUrl}}/contacts
 Content-Type: application/json
 
 {
@@ -23,7 +27,7 @@ Content-Type: application/json
 }
 
 ### Production - Create a contact
-POST https://cse341-5xjq.onrender.com/contacts
+POST {{productionUrl}}/contacts
 Content-Type: application/json
 
 {
@@ -35,7 +39,7 @@ Content-Type: application/json
 }
 
 ### Local - Update a contact
-PUT http://localhost:8080/contacts/REPLACE_WITH_REAL_ID
+PUT {{baseUrl}}/contacts/{{contactId}}
 Content-Type: application/json
 
 {
@@ -47,7 +51,7 @@ Content-Type: application/json
 }
 
 ### Production - Update a contact
-PUT https://cse341-5xjq.onrender.com/contacts/REPLACE_WITH_REAL_ID
+PUT {{productionUrl}}/contacts/{{contactId}}
 Content-Type: application/json
 
 {
@@ -59,7 +63,25 @@ Content-Type: application/json
 }
 
 ### Local - Delete a contact
-DELETE http://localhost:8080/contacts/REPLACE_WITH_REAL_ID
+DELETE {{baseUrl}}/contacts/{{contactId}}
 
 ### Production - Delete a contact
-DELETE https://cse341-5xjq.onrender.com/contacts/REPLACE_WITH_REAL_ID
+DELETE {{productionUrl}}/contacts/{{contactId}}
+
+### Local - Invalid contact data
+POST {{baseUrl}}/contacts
+Content-Type: application/json
+
+{
+  "firstName": "",
+  "lastName": "D",
+  "email": "not-an-email",
+  "favoriteColor": "",
+  "birthday": "not-a-date"
+}
+
+### Local - Invalid MongoDB ID
+GET {{baseUrl}}/contacts/not-a-valid-id
+
+### Local - Valid ID that does not exist
+GET {{baseUrl}}/contacts/64b123456789012345678901

@@ -1,9 +1,9 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "Contacts API",
+    "title": "CSE 341 Contacts and Companies API",
     "version": "1.0.0",
-    "description": "API documentation for the CSE 341 Contacts project."
+    "description": "API documentation for the CSE 341 final project."
   },
   "servers": [
     {
@@ -46,10 +46,12 @@
           },
           "birthday": {
             "type": "string",
+            "format": "date",
             "example": "1995-01-01"
           }
         }
       },
+
       "ContactWithId": {
         "allOf": [
           {
@@ -66,15 +68,63 @@
           }
         ]
       },
-      "CreatedContact": {
+
+      "Company": {
         "type": "object",
+        "required": [
+          "name",
+          "industry",
+          "website",
+          "phone",
+          "city",
+          "state"
+        ],
         "properties": {
-          "id": {
+          "name": {
             "type": "string",
-            "example": "507f1f77bcf86cd799439011"
+            "example": "Acme Software"
+          },
+          "industry": {
+            "type": "string",
+            "example": "Software Development"
+          },
+          "website": {
+            "type": "string",
+            "format": "uri",
+            "example": "https://www.acmesoftware.com"
+          },
+          "phone": {
+            "type": "string",
+            "example": "480-555-1234"
+          },
+          "city": {
+            "type": "string",
+            "example": "Mesa"
+          },
+          "state": {
+            "type": "string",
+            "example": "Arizona"
           }
         }
       },
+
+      "CompanyWithId": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Company"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "507f1f77bcf86cd799439012"
+              }
+            }
+          }
+        ]
+      },
+
       "Error": {
         "type": "object",
         "properties": {
@@ -86,14 +136,13 @@
       }
     }
   },
+
   "paths": {
     "/contacts": {
       "get": {
         "summary": "Get all contacts",
         "description": "Returns every contact stored in the contacts collection.",
-        "tags": [
-          "Contacts"
-        ],
+        "tags": ["Contacts"],
         "responses": {
           "200": {
             "description": "Contacts retrieved successfully.",
@@ -120,12 +169,11 @@
           }
         }
       },
+
       "post": {
         "summary": "Create a contact",
         "description": "Creates a new contact. All five contact fields are required.",
-        "tags": [
-          "Contacts"
-        ],
+        "tags": ["Contacts"],
         "requestBody": {
           "required": true,
           "content": {
@@ -138,17 +186,10 @@
         },
         "responses": {
           "201": {
-            "description": "Contact created successfully.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CreatedContact"
-                }
-              }
-            }
+            "description": "Contact created successfully."
           },
           "400": {
-            "description": "Missing required contact information.",
+            "description": "Invalid or missing contact information.",
             "content": {
               "application/json": {
                 "schema": {
@@ -170,13 +211,12 @@
         }
       }
     },
+
     "/contacts/{id}": {
       "get": {
         "summary": "Get one contact",
         "description": "Returns one contact using its MongoDB ObjectId.",
-        "tags": [
-          "Contacts"
-        ],
+        "tags": ["Contacts"],
         "parameters": [
           {
             "name": "id",
@@ -201,43 +241,21 @@
             }
           },
           "400": {
-            "description": "Invalid contact ID.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
+            "description": "Invalid contact ID."
           },
           "404": {
-            "description": "Contact not found.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
+            "description": "Contact not found."
           },
           "500": {
-            "description": "Server error.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
+            "description": "Server error."
           }
         }
       },
+
       "put": {
         "summary": "Update a contact",
         "description": "Updates a contact using its MongoDB ObjectId. All five fields are required.",
-        "tags": [
-          "Contacts"
-        ],
+        "tags": ["Contacts"],
         "parameters": [
           {
             "name": "id",
@@ -246,8 +264,7 @@
             "description": "MongoDB ObjectId of the contact to update.",
             "schema": {
               "type": "string"
-            },
-            "example": "507f1f77bcf86cd799439011"
+            }
           }
         ],
         "requestBody": {
@@ -261,47 +278,25 @@
           }
         },
         "responses": {
-          "204": {
+          "200": {
             "description": "Contact updated successfully."
           },
           "400": {
-            "description": "Invalid ID or missing required fields.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
+            "description": "Invalid ID or invalid contact data."
           },
           "404": {
-            "description": "Contact not found.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
+            "description": "Contact not found."
           },
           "500": {
-            "description": "Server error.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
+            "description": "Server error."
           }
         }
       },
+
       "delete": {
         "summary": "Delete a contact",
         "description": "Deletes a contact using its MongoDB ObjectId.",
-        "tags": [
-          "Contacts"
-        ],
+        "tags": ["Contacts"],
         "parameters": [
           {
             "name": "id",
@@ -310,43 +305,186 @@
             "description": "MongoDB ObjectId of the contact to delete.",
             "schema": {
               "type": "string"
-            },
-            "example": "507f1f77bcf86cd799439011"
+            }
           }
         ],
         "responses": {
-          "204": {
+          "200": {
             "description": "Contact deleted successfully."
           },
           "400": {
-            "description": "Invalid contact ID.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
+            "description": "Invalid contact ID."
           },
           "404": {
-            "description": "Contact not found.",
+            "description": "Contact not found."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      }
+    },
+
+    "/companies": {
+      "get": {
+        "summary": "Get all companies",
+        "description": "Returns every company stored in the companies collection.",
+        "tags": ["Companies"],
+        "responses": {
+          "200": {
+            "description": "Companies retrieved successfully.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CompanyWithId"
+                  }
                 }
               }
             }
           },
           "500": {
-            "description": "Server error.",
+            "description": "Server error."
+          }
+        }
+      },
+
+      "post": {
+        "summary": "Create a company",
+        "description": "Creates a new company. All company fields are required.",
+        "tags": ["Companies"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Company"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Company created successfully."
+          },
+          "400": {
+            "description": "Invalid or missing company information."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      }
+    },
+
+    "/companies/{id}": {
+      "get": {
+        "summary": "Get one company",
+        "description": "Returns one company using its MongoDB ObjectId.",
+        "tags": ["Companies"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "MongoDB ObjectId of the company.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Company retrieved successfully.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/CompanyWithId"
                 }
               }
             }
+          },
+          "400": {
+            "description": "Invalid company ID."
+          },
+          "404": {
+            "description": "Company not found."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      },
+
+      "put": {
+        "summary": "Update a company",
+        "description": "Updates a company using its MongoDB ObjectId. All company fields are required.",
+        "tags": ["Companies"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "MongoDB ObjectId of the company to update.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Company"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Company updated successfully."
+          },
+          "400": {
+            "description": "Invalid ID or invalid company data."
+          },
+          "404": {
+            "description": "Company not found."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      },
+
+      "delete": {
+        "summary": "Delete a company",
+        "description": "Deletes a company using its MongoDB ObjectId.",
+        "tags": ["Companies"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "MongoDB ObjectId of the company to delete.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Company deleted successfully."
+          },
+          "400": {
+            "description": "Invalid company ID."
+          },
+          "404": {
+            "description": "Company not found."
+          },
+          "500": {
+            "description": "Server error."
           }
         }
       }
