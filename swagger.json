@@ -51,7 +51,6 @@
           }
         }
       },
-
       "ContactWithId": {
         "allOf": [
           {
@@ -68,7 +67,6 @@
           }
         ]
       },
-
       "Company": {
         "type": "object",
         "required": [
@@ -107,7 +105,6 @@
           }
         }
       },
-
       "CompanyWithId": {
         "allOf": [
           {
@@ -124,7 +121,6 @@
           }
         ]
       },
-
       "Error": {
         "type": "object",
         "properties": {
@@ -133,16 +129,110 @@
             "example": "An error occurred."
           }
         }
+      },
+      "Project": {
+        "type": "object",
+        "required": [
+          "name",
+          "description",
+          "status",
+          "ownerEmail"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Website Redesign"
+          },
+          "description": {
+            "type": "string",
+            "example": "Redesign the company website for improved usability."
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "planned",
+              "active",
+              "completed",
+              "on-hold"
+            ],
+            "example": "active"
+          },
+          "ownerEmail": {
+            "type": "string",
+            "format": "email",
+            "example": "owner@example.com"
+          }
+        }
+      },
+      "ProjectWithId": {
+        "allOf": [
+          {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "507f1f77bcf86cd799439011"
+              }
+            }
+          },
+          {
+            "$ref": "#/components/schemas/Project"
+          }
+        ]
+      },
+      "Department": {
+        "type": "object",
+        "required": [
+          "name",
+          "description",
+          "manager",
+          "location"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Engineering"
+          },
+          "description": {
+            "type": "string",
+            "example": "Software and systems engineering department."
+          },
+          "manager": {
+            "type": "string",
+            "example": "Jane Smith"
+          },
+          "location": {
+            "type": "string",
+            "example": "Mesa, Arizona"
+          }
+        }
+      },
+      "DepartmentWithId": {
+        "allOf": [
+          {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "507f1f77bcf86cd799439011"
+              }
+            }
+          },
+          {
+            "$ref": "#/components/schemas/Department"
+          }
+        ]
       }
     }
   },
-
   "paths": {
     "/contacts": {
       "get": {
         "summary": "Get all contacts",
         "description": "Returns every contact stored in the contacts collection.",
-        "tags": ["Contacts"],
+        "tags": [
+          "Contacts"
+        ],
         "responses": {
           "200": {
             "description": "Contacts retrieved successfully.",
@@ -169,11 +259,12 @@
           }
         }
       },
-
       "post": {
         "summary": "Create a contact",
         "description": "Creates a new contact. All five contact fields are required.",
-        "tags": ["Contacts"],
+        "tags": [
+          "Contacts"
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -211,12 +302,13 @@
         }
       }
     },
-
     "/contacts/{id}": {
       "get": {
         "summary": "Get one contact",
         "description": "Returns one contact using its MongoDB ObjectId.",
-        "tags": ["Contacts"],
+        "tags": [
+          "Contacts"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -251,11 +343,12 @@
           }
         }
       },
-
       "put": {
         "summary": "Update a contact",
         "description": "Updates a contact using its MongoDB ObjectId. All five fields are required.",
-        "tags": ["Contacts"],
+        "tags": [
+          "Contacts"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -292,11 +385,12 @@
           }
         }
       },
-
       "delete": {
         "summary": "Delete a contact",
         "description": "Deletes a contact using its MongoDB ObjectId.",
-        "tags": ["Contacts"],
+        "tags": [
+          "Contacts"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -324,12 +418,13 @@
         }
       }
     },
-
     "/companies": {
       "get": {
         "summary": "Get all companies",
         "description": "Returns every company stored in the companies collection.",
-        "tags": ["Companies"],
+        "tags": [
+          "Companies"
+        ],
         "responses": {
           "200": {
             "description": "Companies retrieved successfully.",
@@ -349,11 +444,12 @@
           }
         }
       },
-
       "post": {
         "summary": "Create a company",
         "description": "Creates a new company. All company fields are required.",
-        "tags": ["Companies"],
+        "tags": [
+          "Companies"
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -377,12 +473,13 @@
         }
       }
     },
-
     "/companies/{id}": {
       "get": {
         "summary": "Get one company",
         "description": "Returns one company using its MongoDB ObjectId.",
-        "tags": ["Companies"],
+        "tags": [
+          "Companies"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -416,11 +513,12 @@
           }
         }
       },
-
       "put": {
         "summary": "Update a company",
         "description": "Updates a company using its MongoDB ObjectId. All company fields are required.",
-        "tags": ["Companies"],
+        "tags": [
+          "Companies"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -457,11 +555,12 @@
           }
         }
       },
-
       "delete": {
         "summary": "Delete a company",
         "description": "Deletes a company using its MongoDB ObjectId.",
-        "tags": ["Companies"],
+        "tags": [
+          "Companies"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -485,6 +584,347 @@
           },
           "500": {
             "description": "Server error."
+          }
+        }
+      }
+    },
+    "/projects": {
+      "get": {
+        "summary": "Get all projects",
+        "tags": [
+          "Projects"
+        ],
+        "responses": {
+          "200": {
+            "description": "Projects retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProjectWithId"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a project",
+        "description": "Requires Google OAuth authentication.",
+        "tags": [
+          "Projects"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Project"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Project created successfully"
+          },
+          "400": {
+            "description": "Validation failed"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/projects/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "MongoDB project ID"
+        }
+      ],
+      "get": {
+        "summary": "Get one project",
+        "tags": [
+          "Projects"
+        ],
+        "responses": {
+          "200": {
+            "description": "Project retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectWithId"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid project ID"
+          },
+          "404": {
+            "description": "Project not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a project",
+        "description": "Requires Google OAuth authentication.",
+        "tags": [
+          "Projects"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Project"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Project updated successfully"
+          },
+          "400": {
+            "description": "Validation failed or invalid ID"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "404": {
+            "description": "Project not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a project",
+        "tags": [
+          "Projects"
+        ],
+        "responses": {
+          "200": {
+            "description": "Project deleted successfully"
+          },
+          "400": {
+            "description": "Invalid project ID"
+          },
+          "404": {
+            "description": "Project not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/departments": {
+      "get": {
+        "summary": "Get all departments",
+        "tags": [
+          "Departments"
+        ],
+        "responses": {
+          "200": {
+            "description": "Departments retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DepartmentWithId"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a department",
+        "description": "Requires Google OAuth authentication.",
+        "tags": [
+          "Departments"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Department"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Department created successfully"
+          },
+          "400": {
+            "description": "Validation failed"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/departments/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "MongoDB department ID"
+        }
+      ],
+      "get": {
+        "summary": "Get one department",
+        "tags": [
+          "Departments"
+        ],
+        "responses": {
+          "200": {
+            "description": "Department retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DepartmentWithId"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid department ID"
+          },
+          "404": {
+            "description": "Department not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a department",
+        "description": "Requires Google OAuth authentication.",
+        "tags": [
+          "Departments"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Department"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Department updated successfully"
+          },
+          "400": {
+            "description": "Validation failed or invalid ID"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "404": {
+            "description": "Department not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a department",
+        "tags": [
+          "Departments"
+        ],
+        "responses": {
+          "200": {
+            "description": "Department deleted successfully"
+          },
+          "400": {
+            "description": "Invalid department ID"
+          },
+          "404": {
+            "description": "Department not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/auth/google": {
+      "get": {
+        "summary": "Log in with Google OAuth",
+        "tags": [
+          "Authentication"
+        ],
+        "responses": {
+          "302": {
+            "description": "Redirects to Google authentication"
+          }
+        }
+      }
+    },
+    "/auth/status": {
+      "get": {
+        "summary": "Check authentication status",
+        "tags": [
+          "Authentication"
+        ],
+        "responses": {
+          "200": {
+            "description": "Authentication status returned"
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "get": {
+        "summary": "Log out",
+        "tags": [
+          "Authentication"
+        ],
+        "responses": {
+          "200": {
+            "description": "Logout successful"
           }
         }
       }
