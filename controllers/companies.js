@@ -47,7 +47,8 @@ const createCompany = async (req, res) => {
       website: req.body.website,
       phone: req.body.phone,
       city: req.body.city,
-      state: req.body.state
+      state: req.body.state,
+      employeeCount: req.body.employeeCount
     });
 
     res.status(201).json({
@@ -75,7 +76,8 @@ const updateCompany = async (req, res) => {
         website: req.body.website,
         phone: req.body.phone,
         city: req.body.city,
-        state: req.body.state
+        state: req.body.state,
+        employeeCount: req.body.employeeCount
       },
       {
         new: true,

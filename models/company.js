@@ -50,6 +50,12 @@ const companySchema = new mongoose.Schema(
       trim: true,
       minlength: [2, 'State must contain at least 2 characters'],
       maxlength: [50, 'State cannot exceed 50 characters']
+    },
+
+    employeeCount: {
+      type: Number,
+      required: [true, 'Employee count is required'],
+      min: [1, 'Employee count must be at least 1']
     }
   },
   {

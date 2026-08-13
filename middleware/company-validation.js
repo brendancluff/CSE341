@@ -46,7 +46,14 @@ const companyValidationRules = [
     .notEmpty()
     .withMessage('State is required')
     .isLength({ min: 2, max: 50 })
-    .withMessage('State must be between 2 and 50 characters')
+    .withMessage('State must be between 2 and 50 characters'),
+
+  body('employeeCount')
+    .notEmpty()
+    .withMessage('Employee count is required')
+    .isInt({ min: 1 })
+    .withMessage('Employee count must be a positive integer')
+    .toInt()
 ];
 
 const validateCompany = (req, res, next) => {

@@ -75,7 +75,8 @@
           "website",
           "phone",
           "city",
-          "state"
+          "state",
+          "employeeCount"
         ],
         "properties": {
           "name": {
@@ -102,6 +103,11 @@
           "state": {
             "type": "string",
             "example": "Arizona"
+          },
+          "employeeCount": {
+            "type": "integer",
+            "minimum": 1,
+            "example": 150
           }
         }
       },
